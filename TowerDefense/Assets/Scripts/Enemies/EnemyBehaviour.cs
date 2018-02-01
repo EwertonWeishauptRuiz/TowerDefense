@@ -31,6 +31,7 @@ public class EnemyBehaviour : MonoBehaviour {
     void NextWaypoint(){
         if(wavePointIndex >= Waypoints.waypoints.Length - 1){
             Destroy(gameObject);
+            return;
         }
     
         wavePointIndex++;
