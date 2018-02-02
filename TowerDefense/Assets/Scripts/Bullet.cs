@@ -2,8 +2,11 @@
 
 public class Bullet : MonoBehaviour {
 
+
     Transform target;
     public float speed = 70;
+    public float explosionRadius;
+	public GameObject hitEffect;
     
     public void Seek(Transform _target){
         target = _target;
@@ -26,11 +29,40 @@ public class Bullet : MonoBehaviour {
         }
         // Normalized to make sure how close we are to the target does not affect the speed.
         transform.Translate(dir.normalized * dist, Space.World);
+        // Rotate the Bullet to focus on the target.
+        transform.LookAt(target);
 	}
     
     void Hit(){
         // Instantiate Particles here
-        //Video 5 for reference
+        GameObject particles = Instantiate(hitEffect, transform.position, transform.rotation);
+        Destroy(particles, 2);    
+        // cause damage in a radius
+        if(explosionRadius > 0){
+            DamageRadius();            
+        } else {
+            Damage(target);
+        }
+        
         Destroy(gameObject);
+    }
+    
+    void DamageRadius(){
+        
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
+        foreach (Collider colliders in hitColliders){
+            if(colliders.CompareTag("Enemy")){
+                Damage(colliders.transform);
+            }
+        }
+    }
+    
+    void Damage(Transform enemy){
+        Destroy(enemy.gameObject);        
+    }
+
+    void OnDrawGizmos() {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
 }
