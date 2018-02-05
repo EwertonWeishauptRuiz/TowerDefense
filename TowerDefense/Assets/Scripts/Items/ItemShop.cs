@@ -2,20 +2,29 @@
 
 public class ItemShop : MonoBehaviour {
 
+    public ItemBlueprint standardTurret, 
+                        secondaryTurret, 
+                        laserBeamTurret;
+    
+
     ItemManager itemManager;
     
     void Start(){
         itemManager = ItemManager.instance;
     }
 
-    public void SelectedBasicTurret(){
+    public void SelectBasicTurret(){
         print("Basic Turret Selected");
-        itemManager.CurrentObjectToBuild(itemManager.basicTurret);
+        itemManager.SelectTurret(standardTurret);
     }   
     
-     public void SelectedAnotherTurret(){
+     public void SelectSecondaryTurret(){
         print("Second Turret Selected");
-        //Change for the other object that will be available.
-        //itemManager.CurrentObjectToBuild(itemManager.basicTurret);
-     } 
+        itemManager.SelectTurret(secondaryTurret);
+    } 
+     
+    public void SelectLaserBeam(){
+        print("LaserBeam Turret Selected");
+        itemManager.SelectTurret(laserBeamTurret);
+    } 
 }

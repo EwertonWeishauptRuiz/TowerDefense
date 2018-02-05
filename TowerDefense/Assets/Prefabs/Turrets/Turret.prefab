@@ -283,8 +283,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 5
-  lockSpeed: 5
+  lockSpeed: 10
   fireRate: 2
+  useLaser: 0
   bullet: {fileID: 1349962501521286, guid: b2b6c2bb93a9c466a9eafba4cb4a8ce5, type: 2}
 --- !u!136 &136177517307775836
 CapsuleCollider:

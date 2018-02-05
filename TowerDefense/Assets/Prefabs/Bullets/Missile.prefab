@@ -96,8 +96,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 70
-  explosionRadius: 5
+  explosionRadius: 2
   hitEffect: {fileID: 1205396901912552, guid: 778541b54eef545808cd3d68362dfbd1, type: 2}
+  damage: 10
 --- !u!136 &136975230544133680
 CapsuleCollider:
   m_ObjectHideFlags: 1

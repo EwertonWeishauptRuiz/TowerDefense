@@ -5,18 +5,18 @@ using UnityEngine;
 public class EnemyBehaviour : MonoBehaviour {
 
     public float speed = 5;
-
+    public int health, enemyValue;
+    
     Transform target;
     int wavePointIndex;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         // Get the first point in the Index
         target = Waypoints.waypoints[0];
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+      
+    void Update () {
         // Get the direction point from one point to the other
         Vector3 direction = target.position - transform.position;
         // Normalize to have always the same lenght and fixed speed
@@ -26,11 +26,25 @@ public class EnemyBehaviour : MonoBehaviour {
         if(Vector3.Distance(transform.position, target.position) <= 0.2f){
             NextWaypoint();
         }        
-	}
+    }
     
-    void NextWaypoint(){
+    public void TakeDamage(int amount){
+          health -= amount;
+          
+          if(health <= 0){
+            Die();
+          }
+    }
+    
+    void Die(){
+        PlayerManager.currency += enemyValue;
+        PlayerManager.lives += enemyValue;
+        Destroy(gameObject);
+    }
+    
+    void NextWaypoint() {
         if(wavePointIndex >= Waypoints.waypoints.Length - 1){
-            Destroy(gameObject);
+            ReachedEndLevel();
             return;
         }
     
@@ -38,4 +52,8 @@ public class EnemyBehaviour : MonoBehaviour {
         target = Waypoints.waypoints[wavePointIndex];
     }
     
+    void ReachedEndLevel(){
+        PlayerManager.lives -= 1;      
+        Destroy(gameObject);
+    }   
 }

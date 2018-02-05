@@ -4,19 +4,30 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour {
 
-    Transform target, turret, firePoint;
+    Transform target, turret;
+
+    public Transform firePoint;
     
     public float range, lockSpeed, fireRate;
 
     float fireCountdown;
+
+    [Header("Laser Properties")]
+    public bool useLaser;
+    LineRenderer lineRenderer;
 
     public GameObject bullet;
     
     
 	// Use this for initialization
 	void Start () {
+        if(useLaser){
+            lineRenderer = GetComponent<LineRenderer>();
+        }
+    
 		turret = gameObject.transform.GetChild(0);    
-        firePoint = gameObject.transform.GetChild(1);        
+// Old getting the firepoitn by child....change i again to get it programatically, not as a public        
+//        firePoint = gameObject.transform.GetChild(1);        
         // Search for a target every .5 seconds
 		InvokeRepeating("UpdateTarget", 0, .5f);
 	}
@@ -44,9 +55,32 @@ public class Turret : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(target == null){
+            if(useLaser){
+                if(lineRenderer.enabled){
+                    lineRenderer.enabled = false;
+                }
+            }
             // Should Reset the rotation of the turret to the initial rotation. 
             return;
         }
+
+        LockOnTarget();
+        
+        if(useLaser){
+            ShootLaser();
+        } else {
+			if(fireCountdown <= 0){
+				Shoot();
+				// Divide the second by fire rate
+				fireCountdown = 1 / fireRate;
+			}
+			
+			fireCountdown -= Time.deltaTime;        
+        }
+        
+	}
+
+    void LockOnTarget(){
         // Get the direction by subtracting the target pos - turret pos
         Vector3 targetDir = target.position - transform.position;
         Quaternion lookRotation = Quaternion.LookRotation(targetDir);
@@ -55,15 +89,15 @@ public class Turret : MonoBehaviour {
         //If rotation is not being applied properly check the child object for how he is rotate
         //in global position and change it
         turret.transform.rotation = Quaternion.Euler(0, targetRot.y, 0);
-        
-        if(fireCountdown <= 0){
-            Shoot();
-            // Divide the second by fire rate
-            fireCountdown = 1 / fireRate;
-        }
+    }
 
-        fireCountdown -= Time.deltaTime;
-	}
+    void ShootLaser(){
+        if(!lineRenderer.enabled){
+            lineRenderer.enabled = true;
+        }
+        lineRenderer.SetPosition(0, firePoint.transform.position);
+        lineRenderer.SetPosition(1, target.transform.position);
+    }
 
     void Shoot(){
         GameObject bulletGO = Instantiate(bullet, firePoint.position, firePoint.rotation);
