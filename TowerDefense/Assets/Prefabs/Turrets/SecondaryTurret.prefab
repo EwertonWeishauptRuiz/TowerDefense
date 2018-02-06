@@ -282,10 +282,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a35e52c0d0c614b0394c17046b169293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firePoint: {fileID: 0}
   range: 5
   lockSpeed: 10
   fireRate: 2
+  slowPercentage: 0
   useLaser: 0
+  damageLaser: 0
   bullet: {fileID: 1149327665761270, guid: 055865e0fa8c34a01bfb5b5546f55c08, type: 2}
 --- !u!136 &136177517307775836
 CapsuleCollider:

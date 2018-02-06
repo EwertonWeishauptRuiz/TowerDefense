@@ -287,7 +287,9 @@ MonoBehaviour:
   range: 5
   lockSpeed: 10
   fireRate: 2
+  slowPercentage: 0.5
   useLaser: 1
+  damageLaser: 3
   bullet: {fileID: 0}
 --- !u!120 &120085976218574084
 LineRenderer:

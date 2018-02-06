@@ -6,14 +6,17 @@ public class Turret : MonoBehaviour {
 
     Transform target, turret;
 
+    EnemyBehaviour enemyBehaviour;
+
     public Transform firePoint;
     
-    public float range, lockSpeed, fireRate;
+    public float range, lockSpeed, fireRate, slowPercentage;
 
     float fireCountdown;
 
     [Header("Laser Properties")]
     public bool useLaser;
+    public int damageLaser;
     LineRenderer lineRenderer;
 
     public GameObject bullet;
@@ -44,9 +47,10 @@ public class Turret : MonoBehaviour {
                 closestEnemy = enemy;
             }
         }
-        
+        // Get the closets enemy
         if(closestEnemy != null && smallestDistance <= range){
             target = closestEnemy.transform;
+            enemyBehaviour = target.GetComponent<EnemyBehaviour>();
         } else {
             target = null;
         }
@@ -92,6 +96,11 @@ public class Turret : MonoBehaviour {
     }
 
     void ShootLaser(){
+        // Damage the enemy over time        
+        enemyBehaviour.TakeDamage(damageLaser * Time.deltaTime);
+        // Cut the speed in half
+        enemyBehaviour.Slow(slowPercentage);
+    
         if(!lineRenderer.enabled){
             lineRenderer.enabled = true;
         }
