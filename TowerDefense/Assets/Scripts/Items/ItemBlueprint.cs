@@ -5,6 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class ItemBlueprint{
 
-    public GameObject prefab;
-    public int cost;
+    public GameObject prefab, upgradedPrefab;
+    public int cost, upgradeCost;
+    
+    // Change here to an upgrade system that improves the range and damage of each item
 }

@@ -15,40 +15,50 @@ public class ItemManager : MonoBehaviour {
         instance = this;
     }
        
-	ItemBlueprint itemSelected;
+	// Item selected to build
+    ItemBlueprint itemToBuild;
 
+    NodeBehaviour selectedNode;
+
+    public NodeUI nodeUI;
+    
     public bool CanBuild { 
         // Allows the function to only check if player can build something
         get { 
-            return itemSelected != null; 
+            return itemToBuild != null; 
         } 
     } 
     
     public bool HasCurrency{
         get {
-            return PlayerManager.currency >= itemSelected.cost;
+            return PlayerManager.currency >= itemToBuild.cost;
         }  
     }
-    
-    public void BuildTurret(NodeBehaviour node){
-        if(PlayerManager.currency < itemSelected.cost){
-            print("No money to buy");
+   
+    // Find the selected node
+    public void SelectNode(NodeBehaviour node){
+        if(selectedNode == node){
+            DeselectNode();
             return;
         }
-        // Subtract the value of the item from the player currency
-        PlayerManager.currency -= itemSelected.cost;
+        
+        selectedNode = node;
+        itemToBuild = null;
+
+        nodeUI.SetTarget(node);
+    }
     
-        // Instantiate the object
-        GameObject item = Instantiate(itemSelected.prefab, node.GetBuildPosition(), node.transform.rotation);
-        node.selectedItem = item;
-        
-        // Add particles and sound for placement of items
-        
-        print("Turret build" +" money left: " + PlayerManager.currency);
+    public void DeselectNode(){
+        selectedNode = null;
+        nodeUI.Hide();
     }
    
     public void SelectTurret(ItemBlueprint item){
-        itemSelected = item;
+        itemToBuild = item;
+        DeselectNode();
     }
     
+    public ItemBlueprint GetObjectToBuild(){
+        return itemToBuild;
+    }
 }
