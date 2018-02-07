@@ -35,10 +35,10 @@ public class EnemySpawner : MonoBehaviour {
       // Increment the wave number
         for (int i = 0; i < wave.amountofEnemies; i++) {
             SpawnEnemy(wave.enemy);
-            yield return new WaitForSeconds(1 / wave.spawnRate);
+            yield return new WaitForSeconds(1f / wave.spawnRate);
         }
         
-		waveIndex++;
+		waveIndex++;        
         
         if(waveIndex == waves.Length){
             print("Level Finished");
