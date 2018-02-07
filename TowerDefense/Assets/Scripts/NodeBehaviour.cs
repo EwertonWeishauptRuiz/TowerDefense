@@ -9,7 +9,7 @@ public class NodeBehaviour : MonoBehaviour {
     Renderer rend;
     
     [HideInInspector]
-    public GameObject selectedItem;
+    public GameObject currentItem;
     [HideInInspector]
     public ItemBlueprint itemBlueprint;
     [HideInInspector]
@@ -35,7 +35,7 @@ public class NodeBehaviour : MonoBehaviour {
         }
         
         // if there is a turrent in this node
-        if(selectedItem != null){
+        if(currentItem != null){
             // Passes the node as the selected node
             itemManager.SelectNode(this);
             print("It already have ab object placed");
@@ -84,7 +84,7 @@ public class NodeBehaviour : MonoBehaviour {
     
         // Instantiate the object
         GameObject objectSelected = Instantiate(iBlueprint.prefab, GetBuildPosition(), transform.rotation);
-        selectedItem = objectSelected;
+        currentItem = objectSelected;
 
         // Add particles and sound for placement of items
 
@@ -97,18 +97,25 @@ public class NodeBehaviour : MonoBehaviour {
             return;
         }
         //Destroy the old turret
-        Destroy(selectedItem);
+        Destroy(currentItem);
         
         // Subtract the value of the item from the player currency
         PlayerManager.currency -= itemBlueprint.upgradeCost;
     
         // Instantiate the Upgraded object
         GameObject objectSelected = Instantiate(itemBlueprint.upgradedPrefab, GetBuildPosition(), transform.rotation);
-        selectedItem = objectSelected;        
+        currentItem = objectSelected;        
 
         // Add particles and sound for placement of items
 
 		isUpgraded = true;
         print("Turret Upgraded");
+    }
+    
+    public void SellTurret(){
+        // Selling just for half of the standard cost
+        PlayerManager.currency += itemBlueprint.SellAmount();
+        Destroy(currentItem);
+        currentItem = null;
     }
 }

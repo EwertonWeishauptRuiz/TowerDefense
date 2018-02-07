@@ -45,7 +45,8 @@ public class EnemyMovement : MonoBehaviour {
     }
     
     void ReachedEndLevel(){
-        PlayerManager.lives -= 1;      
+        PlayerManager.lives -= 1;
+        EnemySpawner.enemiesAlive--;    
         Destroy(gameObject);
     } 
 }

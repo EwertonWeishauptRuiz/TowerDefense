@@ -21,8 +21,7 @@ public class NodeUI : MonoBehaviour {
     }
     
     void Update(){
-        if(!canvas.activeInHierarchy){
-            print("Canvas not active"); 
+        if(!canvas.activeInHierarchy){            
             return;
         }        
 
@@ -40,7 +39,8 @@ public class NodeUI : MonoBehaviour {
         transform.position = target.GetBuildPosition();
 
         upgradeCost.text = "$" + node.itemBlueprint.upgradeCost.ToString();
-                
+
+        sellCost.text = "$" + node.itemBlueprint.SellAmount().ToString();        
         canvas.SetActive(true);
     }
     
@@ -52,5 +52,10 @@ public class NodeUI : MonoBehaviour {
        node.UpdgradeTurret();
        // Deselects the node.
        ItemManager.instance.DeselectNode();
+    }
+    
+    public void Sell(){
+        node.SellTurret();
+        ItemManager.instance.DeselectNode();
     }
 }
