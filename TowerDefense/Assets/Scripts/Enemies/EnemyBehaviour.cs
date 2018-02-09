@@ -25,7 +25,6 @@ public class EnemyBehaviour : MonoBehaviour {
 
         // Takes float between 0 and 1
         healthBar.fillAmount = health / startHealth;
-        print(health);
           
         if(health <= 0){
             Die();

@@ -41,7 +41,8 @@ public class ItemManager : MonoBehaviour {
             DeselectNode();
             return;
         }
-        
+        nodeUI.Hide();
+        print("deselect the node");
         selectedNode = node;
         itemToBuild = null;
 

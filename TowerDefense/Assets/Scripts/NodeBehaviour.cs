@@ -14,6 +14,8 @@ public class NodeBehaviour : MonoBehaviour {
     public ItemBlueprint itemBlueprint;
     [HideInInspector]
     public bool isUpgraded;
+    [HideInInspector]
+    public Turret turretBehaviour; 
 
     ItemManager itemManager;
 
@@ -86,11 +88,13 @@ public class NodeBehaviour : MonoBehaviour {
         GameObject objectSelected = Instantiate(iBlueprint.prefab, GetBuildPosition(), transform.rotation);
         currentItem = objectSelected;
 
+        turretBehaviour = objectSelected.GetComponent<Turret>();
+
         // Add particles and sound for placement of items
 
         print("Turret build");
     }
-    
+        
     public void UpdgradeTurret(){
         if(PlayerManager.currency < itemBlueprint.upgradeCost){
             print("No money to upgrade");

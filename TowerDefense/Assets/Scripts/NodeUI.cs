@@ -24,13 +24,12 @@ public class NodeUI : MonoBehaviour {
         if(!canvas.activeInHierarchy){            
             return;
         }        
-
+        // Enable and disable the button realted to the player currency situation. 
         if(PlayerManager.currency < node.itemBlueprint.upgradeCost){
             upgradeButton.interactable = false;
         } else {
             upgradeButton.interactable = true;
         } 
-
     }
     
     public void SetTarget(NodeBehaviour target){
@@ -42,10 +41,17 @@ public class NodeUI : MonoBehaviour {
 
         sellCost.text = "$" + node.itemBlueprint.SellAmount().ToString();        
         canvas.SetActive(true);
+		// Set the radius renderer on
+		node.turretBehaviour.rangeRadiusRenderer.enabled = true;
     }
     
     public void Hide(){
-        canvas.SetActive(false);   
+		canvas.SetActive(false);   
+        // If there is no node, return, otherwise, set the randeRadius off.
+        if(node == null){
+            return;
+        }        
+        node.turretBehaviour.rangeRadiusRenderer.enabled = false;
     }
     
     public void Upgrade(){
