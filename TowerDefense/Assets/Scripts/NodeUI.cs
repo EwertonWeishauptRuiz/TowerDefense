@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NodeUI : MonoBehaviour {
 
-    GameObject canvas;
+    GameObject itemOptionsCanvas;
     [Header("Upgrade")]
     public Text upgradeCost;
     public Button upgradeButton;
@@ -16,12 +16,12 @@ public class NodeUI : MonoBehaviour {
     NodeBehaviour node;
     
     void Start(){
-        canvas = transform.GetChild(0).gameObject;
-        canvas.SetActive(false);        
+        itemOptionsCanvas = transform.GetChild(0).gameObject;
+        itemOptionsCanvas.SetActive(false);        
     }
     
     void Update(){
-        if(!canvas.activeInHierarchy){            
+        if(!itemOptionsCanvas.activeInHierarchy){            
             return;
         }        
         // Enable and disable the button realted to the player currency situation. 
@@ -34,19 +34,20 @@ public class NodeUI : MonoBehaviour {
     
     public void SetTarget(NodeBehaviour target){
         node = target;
+        
         // Puts the UI in the correct position
         transform.position = target.GetBuildPosition();
 
         upgradeCost.text = "$" + node.itemBlueprint.upgradeCost.ToString();
-
         sellCost.text = "$" + node.itemBlueprint.SellAmount().ToString();        
-        canvas.SetActive(true);
+        //Set the canvas on
+        itemOptionsCanvas.SetActive(true);
 		// Set the radius renderer on
 		node.turretBehaviour.rangeRadiusRenderer.enabled = true;
     }
     
     public void Hide(){
-		canvas.SetActive(false);   
+		itemOptionsCanvas.SetActive(false);   
         // If there is no node, return, otherwise, set the randeRadius off.
         if(node == null){
             return;

@@ -5,6 +5,7 @@ using UnityEngine;
 public class NodeBehaviour : MonoBehaviour {
 
     public Color hoverColor, noCurrencyColor;
+    public bool hasTower;
     Color startColor;
     Renderer rend;
     
@@ -26,8 +27,14 @@ public class NodeBehaviour : MonoBehaviour {
 	}
     
     public Vector3 GetBuildPosition(){
-        Vector3 offset = new Vector3(0, 0.5f, 0);
-        return transform.position + offset;
+        if(itemBlueprint.prefab.name == "Tower"){            
+            Vector3 offset = new Vector3(0, 0.2f, 0);
+            return transform.position + offset;
+        } else {
+			Vector3 offset = new Vector3(0, 0.5f, 0);
+			return transform.position + offset;        
+        }
+        
     }
     
     void OnMouseDown(){
@@ -78,6 +85,21 @@ public class NodeBehaviour : MonoBehaviour {
             print("No money to buy");
             return;
         }
+        
+		//If it already has a tower build, do not build another tower
+		if(iBlueprint.prefab.name == "Tower" && hasTower){
+			print("Already has a tower build");
+			return;
+		}
+        
+        if(iBlueprint.prefab.name == "Tower"){
+            hasTower = true;
+        } 
+        // Check if there is a tower, before building a turret
+        if(iBlueprint.prefab.name != "Tower" && !hasTower){
+            print("Build a tower first");
+            return;
+        }
         // Subtract the value of the item from the player currency
         PlayerManager.currency -= iBlueprint.cost;
         
@@ -86,6 +108,7 @@ public class NodeBehaviour : MonoBehaviour {
     
         // Instantiate the object
         GameObject objectSelected = Instantiate(iBlueprint.prefab, GetBuildPosition(), transform.rotation);
+        objectSelected.transform.parent = gameObject.transform;
         currentItem = objectSelected;
 
         turretBehaviour = objectSelected.GetComponent<Turret>();

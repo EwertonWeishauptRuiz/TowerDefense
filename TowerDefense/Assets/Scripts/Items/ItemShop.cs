@@ -4,7 +4,8 @@ public class ItemShop : MonoBehaviour {
 
     public ItemBlueprint standardTurret, 
                         secondaryTurret, 
-                        laserBeamTurret;
+                        laserBeamTurret,
+                        towerBase;
     
 
     ItemManager itemManager;
@@ -12,19 +13,20 @@ public class ItemShop : MonoBehaviour {
     void Start(){
         itemManager = ItemManager.instance;
     }
+    
+    public void SelectTower(){
+        itemManager.SelectObject(towerBase);
+    }
 
-    public void SelectBasicTurret(){
-        print("Basic Turret Selected");
-        itemManager.SelectTurret(standardTurret);
+    public void SelectBasicTurret(){        
+        itemManager.SelectObject(standardTurret);
     }   
     
-     public void SelectSecondaryTurret(){
-        print("Second Turret Selected");
-        itemManager.SelectTurret(secondaryTurret);
+     public void SelectSecondaryTurret(){        
+        itemManager.SelectObject(secondaryTurret);
     } 
      
-    public void SelectLaserBeam(){
-        print("LaserBeam Turret Selected");
-        itemManager.SelectTurret(laserBeamTurret);
+    public void SelectLaserBeam(){        
+        itemManager.SelectObject(laserBeamTurret);
     } 
 }

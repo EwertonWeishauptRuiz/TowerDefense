@@ -54,12 +54,12 @@ public class ItemManager : MonoBehaviour {
         nodeUI.Hide();
     }
    
-    public void SelectTurret(ItemBlueprint item){
+    public void SelectObject(ItemBlueprint item){
         itemToBuild = item;
         DeselectNode();
     }
     
-    public ItemBlueprint GetObjectToBuild(){
+    public ItemBlueprint GetObjectToBuild(){        
         return itemToBuild;
     }
 }
